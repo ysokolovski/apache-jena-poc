@@ -116,23 +116,25 @@ public class SimpleModel {
         final String given = "John";
         final String family = "Smith";
 
-        create(given, family);
+        Resource resource = create(given, family);
+
+        resource.addProperty(
+                VCARD.N, model.createResource().
+                        addProperty(VCARD.Given, given).
+                        addProperty(VCARD.Family, family)
+        );
 
 
         System.out.printf("Initial model: %s\n", model);
     }
 
-    public void create(String given, String family) {
+    public Resource create(String given, String family) {
         String name=given+" "+family;
         String uri= getUri(given, family);
-        model.
+        return model.
                 createResource(uri).
-                addProperty(VCARD.FN, name).
-                addProperty(
-                        VCARD.N, model.createResource().
-                        addProperty(VCARD.Given, given).
-                                addProperty(VCARD.Family, family)
-                );
+                addProperty(VCARD.FN, name)
+                ;
     }
 
     public String getUri(String given, String family) {
@@ -146,5 +148,9 @@ public class SimpleModel {
 
     public Model getModel() {
         return model;
+    }
+
+    public Resource getRoot() {
+        return model.listResourcesWithProperty(VCARD.FN).nextResource();
     }
 }
