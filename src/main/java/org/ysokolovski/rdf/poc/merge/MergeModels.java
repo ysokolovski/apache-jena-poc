@@ -34,10 +34,17 @@ public class MergeModels {
 
         Model model3=mergeModels.merge(model1,model2);
 
-        mergeModels.printModel(model3);
+        mergeModels.printModel("Merged models",model3);
+
+        mergeModels.printModel("Model intersection",model1.intersection(model2));
+        mergeModels.printModel("Model difference 1",model1.difference(model2));
+        mergeModels.printModel("Model difference 2",model2.difference(model1));
+
+
     }
 
-    private void printModel(Model model) {
+    private void printModel(String name,Model model) {
+        System.out.println("============="+name);
         model.write(System.out, SimpleModel.RDF_XML_ABBREV);
     }
 
