@@ -54,7 +54,15 @@ public class SimpleModel {
     public static final String N_TRIPLES = "N-TRIPLES";
     public static final String RDF_XML_ABBREV = "RDF/XML-ABBREV";
 
-    private final Model model=ModelFactory.createDefaultModel();
+    private final Model model;
+
+    public SimpleModel() {
+        this.model=ModelFactory.createDefaultModel();
+    }
+
+    public SimpleModel(Model model) {
+        this.model=model;
+    }
 
     public static void main(String[] args) {
         final SimpleModel simpleModel = new SimpleModel();
