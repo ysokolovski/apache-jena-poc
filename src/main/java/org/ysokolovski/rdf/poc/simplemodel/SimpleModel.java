@@ -50,6 +50,8 @@ public class SimpleModel {
             "    <vcard:N rdf:nodeID=\"A3\"/>\n" +
             "  </rdf:Description>\n" +
             "</rdf:RDF>";
+    public static final String N_TRIPLES = "N-TRIPLES";
+    public static final String RDF_XML_ABBREV = "RDF/XML-ABBREV";
 
     private final Model model=ModelFactory.createDefaultModel();
 
@@ -72,12 +74,12 @@ public class SimpleModel {
 
     private void printTripleXml() {
         System.out.println("Triples RDF XML:");
-        model.write(System.out,"N-TRIPLES");
+        model.write(System.out, N_TRIPLES);
     }
 
     private void printPrettyXml() {
         System.out.println("Pretty RDF XML:");
-        model.write(System.out,"RDF/XML-ABBREV");
+        model.write(System.out, RDF_XML_ABBREV);
     }
 
     private void printDumbXml() {
