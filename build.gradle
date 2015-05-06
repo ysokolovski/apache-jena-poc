@@ -9,4 +9,5 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile "org.apache.jena:apache-jena-libs:2.13.0"
 }
