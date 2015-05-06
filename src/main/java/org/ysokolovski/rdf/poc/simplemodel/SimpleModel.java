@@ -10,8 +10,9 @@ import java.io.ByteArrayInputStream;
  */
 public class SimpleModel {
 
-    private static final String personURI="http://org.ysokolovski.rdf/johnsmith";
-    private static final String fullName="John Smith";
+    public static final String RDF_PREFIX = "http://org.ysokolovski.rdf/";
+    public static final String JOHN_SMITH_URI = RDF_PREFIX + "johnsmith";
+
 
     private static final String PERSON_RDF="<rdf:RDF\n" +
             "  xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'\n" +
@@ -67,27 +68,27 @@ public class SimpleModel {
         simpleModel.printPrettyXml();
     }
 
-    private void loadFromXml() {
+    public void loadFromXml() {
         model.read(new ByteArrayInputStream(PERSON_RDF.getBytes()),null);
         System.out.println("Loaded RDF from XML...");
     }
 
-    private void printTripleXml() {
+    public void printTripleXml() {
         System.out.println("Triples RDF XML:");
         model.write(System.out, N_TRIPLES);
     }
 
-    private void printPrettyXml() {
+    public void printPrettyXml() {
         System.out.println("Pretty RDF XML:");
         model.write(System.out, RDF_XML_ABBREV);
     }
 
-    private void printDumbXml() {
+    public void printDumbXml() {
         System.out.println("Dumb RDF XML:");
         model.write(System.out);
     }
 
-    private void list() {
+    public void list() {
         StmtIterator stmtIterator=model.listStatements();
 
         System.out.println("Model statements:");
@@ -111,20 +112,39 @@ public class SimpleModel {
         }
     }
 
-    private void create() {
-        model.
-                createResource(personURI).
-                addProperty(VCARD.FN, fullName).
-                addProperty(
-                        VCARD.N, model.createResource().
-                        addProperty(VCARD.Given,"John").
-                                addProperty(VCARD.Family,"Smith")
-                );
+    public void create() {
+        final String given = "John";
+        final String family = "Smith";
 
+        create(given, family);
 
 
         System.out.printf("Initial model: %s\n", model);
     }
 
+    public void create(String given, String family) {
+        String name=given+" "+family;
+        String uri= getUri(given, family);
+        model.
+                createResource(uri).
+                addProperty(VCARD.FN, name).
+                addProperty(
+                        VCARD.N, model.createResource().
+                        addProperty(VCARD.Given, given).
+                                addProperty(VCARD.Family, family)
+                );
+    }
 
+    public String getUri(String given, String family) {
+        return RDF_PREFIX+given.toLowerCase()+family.toLowerCase();
+    }
+
+
+    public Resource get(String uri) {
+        return model.getResource(uri);
+    }
+
+    public Model getModel() {
+        return model;
+    }
 }
